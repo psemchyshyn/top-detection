@@ -57,7 +57,9 @@ Python stack (torch, torch-lightning, cv2, skimage, transformers, segmentation-p
 The training was performed on NVIDIA GeForce 3090Ti GPU
 
 **train_segmentation.py** training the contour extraction model (the configuration is specified under segmentation/config_seg.yaml)
+
 **train_height.py** training the height estimation model (the configuration is specified under config.yaml)
+
 **inference.py** - getting results for test data
 
 
