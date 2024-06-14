@@ -1,0 +1,42 @@
+data:
+  image_path: '/mnt/data/psemchyshyn/top-detection/mlc_training_data/images'
+  label_path: '/mnt/data/psemchyshyn/top-detection/mlc_training_data/ground_truth_files'
+  test_data_path: '/mnt/data/psemchyshyn/top-detection/mlc_test_images'
+  image_w: 512
+  image_h: 512
+  original_image_size: 512
+  train_size: 1.01
+  batch_size: 8
+  train_augs: 'medium'
+  val_augs: 'none'
+  tta: false
+
+model_roof:
+  model_name: manet
+  encoder_name: mit_b5
+  channels: 3
+  encoder_depth: 5
+  encoder_weights: 'imagenet'
+  loss: jaccard # jaccard, dice, focal, lovasz, bce
+
+training: 
+  lr: 0.0001
+  epochs: 100
+  set_height_to: 9.0
+  cache_dir: '/mnt/data/psemchyshyn/top-detection/cache'
+  save_logs_dir: 'logs'
+  save_weights_dir: '/mnt/data/psemchyshyn/top-detection/checkpoints'
+  save_results_dir: 'test_results'
+  save_temp_val_results_dir: '/mnt/data/psemchyshyn/top-detection/val/temp_val_results'
+  save_temp_train_results_dir: '/mnt/data/psemchyshyn/top-detection/train/temp_train_results'
+  train_labels_dir: '/mnt/data/psemchyshyn/top-detection/train/labels'
+  val_labels_dir: '/mnt/data/psemchyshyn/top-detection/val/labels'
+  train_labels_dir_gt: '/mnt/data/psemchyshyn/top-detection/train/labels_temp'
+  val_labels_dir_gt: '/mnt/data/psemchyshyn/top-detection/val/labels_temp'
+  wandb_project_name: 'top-detection'
+  wandb_run_name: 'segmentator_manet-mit_b5_augs-train_medium-val_none_loss-jaccard_height9_tta-true_512-bs8'
+  
+prediction:
+  mask_threshold: 0.5
+  max_vertices: 8
+  epsilon: 0.001
