@@ -1,3 +1,8 @@
+'''
+Torch-lightning module, which contains the logic for contour extraction by using custom models
+'''
+
+
 import torch
 import os
 import pytorch_lightning as pl

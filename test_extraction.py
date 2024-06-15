@@ -1,3 +1,7 @@
+'''
+Test file (doesn't participate in the pipeline)
+'''
+
 import json
 import numpy as np
 from PIL import Image, ImageDraw

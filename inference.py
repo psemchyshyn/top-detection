@@ -1,3 +1,7 @@
+'''
+This module is for creating the inference and checking the score
+'''
+
 import yaml
 import os
 import torch

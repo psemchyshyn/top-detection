@@ -1,12 +1,14 @@
+'''
+Dataset logic
+'''
+
 import torch
 import numpy as np
 import glob
-import albumentations as A
 import cv2
 import os
 import json
-import skimage
-from PIL import Image, ImageDraw
+from PIL import Image
 from torch.utils.data import Dataset
 from utility import labelme2mask
 from augmentations import get_tta_augs
@@ -20,7 +22,7 @@ class TopDetectionDataset(Dataset):
         self.image_h = image_h
         self.image_w = image_w
         self.names = names
-        self.tta = tta
+        self.tta = tta # defines whether to use test-time augmentations
         self.path2images = path2images
         self.path2labels = path2labels
 

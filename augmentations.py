@@ -1,3 +1,7 @@
+'''
+Defines easy, medium and hard levels of augmentations
+'''
+
 import albumentations as A
 
 def get_augmentations(image_w, image_h, mode='easy'):

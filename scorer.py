@@ -1,3 +1,7 @@
+'''
+scorer.py provded by the competition hosts
+'''
+
 import argparse
 import numpy as np
 import json

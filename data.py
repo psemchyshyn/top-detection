@@ -1,3 +1,8 @@
+'''
+Data object which complies with logic of the torch-lightining Trainer
+'''
+
+
 import os
 import pytorch_lightning as pl
 from torch.utils.data import DataLoader

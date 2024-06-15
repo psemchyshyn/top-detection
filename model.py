@@ -1,3 +1,7 @@
+'''
+Torch-lightning module, which contains the logic for height estimation
+'''
+
 import skimage.measure
 import torch
 import os
@@ -8,6 +12,7 @@ import pytorch_lightning as pl
 import segmentation_models_pytorch as smp
 import torchvision.transforms.functional as TF
 import torch.nn.functional as F
+# we can use either default segmentation models or Fine-tuned SAM model
 # from segmentation.model import LitSegment as Segmentator
 from segmentation.sam import LitSegment as Segmentator
 from utility import mask2labelme
@@ -27,6 +32,7 @@ class LitSegment(pl.LightningModule):
 
         torch.hub.set_dir(self.conf_training['cache_dir'])
         
+        # import pre-trained contour detector and freeze the weights (we only train height estimation model)
         self.model_roof = Segmentator.load_from_checkpoint(self.conf_model_height['model_roof_checkpoint'])
         self.model_roof.freeze()
 
@@ -42,8 +48,6 @@ class LitSegment(pl.LightningModule):
         return y_hat_roof
     
     def forward_height(self, x):
-        # if self.conf_model_height["encoder_weights"] is not None:
-        #     x = (x - self.mean_height) / self.std_height
         mask = self.model_height(x)
         return mask
     
@@ -56,6 +60,9 @@ class LitSegment(pl.LightningModule):
         return inputt
     
     def correct_target(self, y_hat_roof, mask_height):
+        '''
+        Utility function for experimenting with different training targets
+        '''
         temp_y_hat_roof = y_hat_roof.squeeze(1).cpu().numpy()
         temp_mask_height = mask_height.squeeze(1).cpu()
 
@@ -87,6 +94,9 @@ class LitSegment(pl.LightningModule):
 
 
     def get_seg_mask_for_height(self, mode, mask_roof, pred_mask_roof):
+        '''
+        Utility function that can be used to train height estimation with perfect mask (given annotation)
+        '''
         if mode == 'val':
             return pred_mask_roof
         else:

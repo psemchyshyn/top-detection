@@ -1,3 +1,8 @@
+'''
+Utility script for separating original images and their annotations into train and validation sets
+'''
+
+
 import os
 import shutil
 import tqdm
@@ -30,4 +35,3 @@ os.makedirs(out_val_images)
 for name in tqdm.tqdm(val_names):
     shutil.copy(os.path.join(image_path, f"{name}.png"), out_val_images)
     shutil.copy(os.path.join(label_path, f"{name}.json"), out_val_labels)
-

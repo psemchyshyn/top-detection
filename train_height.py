@@ -1,3 +1,8 @@
+'''
+Trainer for height estimator
+'''
+
+
 import yaml
 import os
 import torch

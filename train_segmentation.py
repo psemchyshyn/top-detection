@@ -1,3 +1,7 @@
+'''
+Trainer for the segmentation model (identical logic to train_sam.py and train_height)
+'''
+
 import yaml
 import os
 import torch

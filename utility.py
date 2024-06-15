@@ -7,6 +7,9 @@ from PIL import Image, ImageDraw
 
 
 def labelme2mask(labelme_json, image_w, image_h):
+    '''
+    Converting labelme json format to binary segmentation mask
+    '''
     mask_roof = Image.new('1', (image_w, image_h), 0)
     mask_height = np.zeros((image_w, image_h))
 
@@ -23,6 +26,9 @@ def labelme2mask(labelme_json, image_w, image_h):
 
 
 def get_height_of_the_contour(mask_height, contour):
+    '''
+    Converting mask of height to height of the building
+    '''
     contour_mask = Image.new('1', mask_height.shape, 0)
     contour = np.array(contour).flatten().tolist()
     ImageDraw.Draw(contour_mask).polygon(contour, outline=1, fill=1)
@@ -39,15 +45,16 @@ def get_height_of_the_contour(mask_height, contour):
 
 
 def mask2labelme(mask, mask_height, output_json_path, mask_threshold=0.5, max_vertices=8, epsilon=0.01): # mask is np.array with 0 and 1 values
+    '''
+    Inverse conversion: from mask to label
+    '''
     mask = np.uint8(mask > mask_threshold)
-    # print(mask.shape, mask.dtype, mask)
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     labelme_data = {
         "shapes": [],
     }
-    # print('stat')
-    # print(len(contours), mask.sum(), mask.shape, 512*512)
     for contour in contours:
+        # each indentified contour is post-processed with cv2.approxPolyDP, which maskes contour more simple (less vertices)
         if max_vertices is not None:
             epsilon_val = epsilon * cv2.arcLength(contour, True)
             approx_contour = cv2.approxPolyDP(contour, epsilon_val, True)
@@ -64,7 +71,7 @@ def mask2labelme(mask, mask_height, output_json_path, mask_threshold=0.5, max_ve
         polygon = Polygon(approx_contour)
         polygon = shapely.simplify(polygon, tolerance=4, preserve_topology=True)
 
-        if not polygon.is_simple:
+        if not polygon.is_simple: # the scorer doesn't allow non-simple polygons
             continue
 
         points = list(polygon.exterior.coords)[:-1]

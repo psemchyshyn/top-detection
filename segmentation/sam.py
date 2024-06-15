@@ -1,3 +1,7 @@
+'''
+Torch-lightning module, which contains the logic for contour extraction by fine-tuning SAM model
+'''
+
 import torch
 import os
 import numpy as np

@@ -1,3 +1,7 @@
+'''
+Utility file to test different losses
+'''
+
 import segmentation_models_pytorch as smp
 
 

@@ -1,3 +1,8 @@
+'''
+Trainer for fine-tuning the base SAM model
+'''
+
+
 import yaml
 import os
 import torch
